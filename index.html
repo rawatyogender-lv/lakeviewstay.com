@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Lake View Homestay, Farasu, Srinagar, Uttarakhand — peaceful lake and mountain views, comfortable rooms, and a convenient stay near Dhari Devi Temple.">
+    <title>Lake View Homestay | Farasu, Srinagar, Uttarakhand</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks = document.getElementById("navLinks");
+    const navItems = navLinks.querySelectorAll("a");
+
+    menuToggle.addEventListener("click", function () {
+
+        const isOpen = navLinks.classList.toggle("active");
+
+        menuToggle.classList.toggle("active", isOpen);
+
+        menuToggle.setAttribute(
+            "aria-expanded",
+            isOpen
+        );
+
+        menuToggle.setAttribute(
+            "aria-label",
+            isOpen ? "Close navigation menu" : "Open navigation menu"
+        );
+    });
+
+
+    /* Close menu after clicking a link */
+
+    navItems.forEach(function (link) {
+
+        link.addEventListener("click", function () {
+
+            navLinks.classList.remove("active");
+            menuToggle.classList.remove("active");
+
+            menuToggle.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+            menuToggle.setAttribute(
+                "aria-label",
+                "Open navigation menu"
+            );
+
+        });
+
+    });
+
+
+    /* Close menu if screen becomes desktop */
+
+    window.addEventListener("resize", function () {
+
+        if (window.innerWidth > 768) {
+
+            navLinks.classList.remove("active");
+            menuToggle.classList.remove("active");
+
+            menuToggle.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        }
+
+    });
+
+});
+</script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const slider = document.querySelector(".gallery-slider");
+            const track = document.querySelector(".gallery-track");
+            const slides = document.querySelectorAll(".gallery-slide");
+            const prevBtn = document.querySelector(".gallery-prev");
+            const nextBtn = document.querySelector(".gallery-next");
+            const dotsContainer = document.querySelector(".gallery-dots");
+
+            let currentIndex = 0;
+            let autoSlide;
+
+            function getSlidesPerView() {
+                if (window.innerWidth <= 600) {
+                    return 1;
+                }
+
+                if (window.innerWidth <= 900) {
+                    return 2;
+                }
+
+                return 4;
+            }
+
+            function getMaxIndex() {
+                return Math.max(0, slides.length - getSlidesPerView());
+            }
+
+            function updateSlider() {
+
+                const slidesPerView = getSlidesPerView();
+                const slideWidth = 100 / slidesPerView;
+
+                currentIndex = Math.min(
+                    currentIndex,
+                    getMaxIndex()
+                );
+
+                track.style.transform =
+                    `translateX(-${currentIndex * slideWidth}%)`;
+
+                updateDots();
+            }
+
+            function createDots() {
+
+                dotsContainer.innerHTML = "";
+
+                const totalDots = getMaxIndex() + 1;
+
+                for (let i = 0; i < totalDots; i++) {
+
+                    const dot = document.createElement("button");
+
+                    dot.className = "gallery-dot";
+
+                    dot.setAttribute(
+                        "aria-label",
+                        `Go to gallery position ${i + 1}`
+                    );
+
+                    dot.addEventListener("click", function () {
+                        currentIndex = i;
+                        updateSlider();
+                        restartAutoSlide();
+                    });
+
+                    dotsContainer.appendChild(dot);
+                }
+
+                updateDots();
+            }
+
+            function updateDots() {
+
+                const dots =
+                    document.querySelectorAll(".gallery-dot");
+
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle(
+                        "active",
+                        index === currentIndex
+                    );
+                });
+            }
+
+            function nextSlide() {
+
+                if (currentIndex >= getMaxIndex()) {
+                    currentIndex = 0;
+                } else {
+                    currentIndex++;
+                }
+
+                updateSlider();
+            }
+
+            function previousSlide() {
+
+                if (currentIndex <= 0) {
+                    currentIndex = getMaxIndex();
+                } else {
+                    currentIndex--;
+                }
+
+                updateSlider();
+            }
+
+            function startAutoSlide() {
+
+                autoSlide = setInterval(function () {
+                    nextSlide();
+                }, 4000);
+
+            }
+
+            function restartAutoSlide() {
+
+                clearInterval(autoSlide);
+                startAutoSlide();
+
+            }
+
+            nextBtn.addEventListener("click", function () {
+                nextSlide();
+                restartAutoSlide();
+            });
+
+            prevBtn.addEventListener("click", function () {
+                previousSlide();
+                restartAutoSlide();
+            });
+
+
+            /* Touch / swipe support */
+
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            slider.addEventListener("touchstart", function (event) {
+
+                touchStartX = event.changedTouches[0].screenX;
+
+            }, { passive: true });
+
+
+            slider.addEventListener("touchend", function (event) {
+
+                touchEndX = event.changedTouches[0].screenX;
+
+                const difference =
+                    touchStartX - touchEndX;
+
+                if (Math.abs(difference) > 50) {
+
+                    if (difference > 0) {
+                        nextSlide();
+                    } else {
+                        previousSlide();
+                    }
+
+                    restartAutoSlide();
+                }
+
+            }, { passive: true });
+
+
+            /* Recalculate when screen size changes */
+
+            window.addEventListener("resize", function () {
+
+                createDots();
+                updateSlider();
+
+            });
+
+
+            /* Start */
+
+            createDots();
+            updateSlider();
+            startAutoSlide();
+
+        });
+    </script>
+</head>
+
+<body>
+    <nav class="nav">
+    <div class="nav-inner">
+
+        <a class="logo" href="#home">
+            <img src="assets/images/Logo_LV1.png"
+                 height="50"
+                 width="89"
+                 alt="Lake View Homestay Logo">
+        </a>
+
+        <!-- Desktop navigation -->
+        <div class="links" id="navLinks">
+            <a href="#stay">Stay</a>
+            <a href="#amenities">Amenities</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#location">Location</a>
+            <a href="#contact">Contact</a>
+        </div>
+
+        <!-- Mobile hamburger -->
+        <button class="menu-toggle"
+                id="menuToggle"
+                aria-label="Open navigation menu"
+                aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+    </div>
+</nav>
+
+    <header class="hero" id="home">
+        <div>
+            <div class="eyebrow">Peaceful mountain stay · Actual lake views</div>
+            <h1>Lake View Homestay</h1>
+            <p>A comfortable getaway in Farasu, near Srinagar, Uttarakhand — with peaceful village surroundings,
+                mountain scenery and beautiful lake views.</p>
+            <a class="btn"
+                href="https://wa.me/919968269765?text=Hello%20Lake%20View%20Homestay%2C%20I%20would%20like%20to%20check%20availability."
+                target="_blank">Check Availability</a>
+            <a class="btn alt" href="#location">Explore Location</a>
+        </div>
+    </header>
+
+    <section>
+        <div class="intro">
+            <h2>Stay where the mountains slow you down</h2>
+            <p class="muted">Lake View Homestay is designed for families, couples and travellers looking for a calm base
+                in the Garhwal hills. The property is conveniently located near the main highway while offering a
+                quieter village setting away from the traffic.</p>
+        </div>
+    </section>
+
+    <section id="stay">
+        <h2 class="section-title">Your stay</h2>
+        <div class="rooms">
+            <article class="room"><img src="assets/images/01-Living_Room_1.png" alt="Comfortable homestay bedroom">
+                <div>
+                    <h3>First bedroom with Kitchen</h3>
+                    <p class="muted">Triple-bed room with attached Kitchen and bathroom, geyser and air conditioning. A
+                        comfortable
+                        option for couples, families or small groups.</p>
+                </div>
+            </article>
+            <article class="room"><img src="assets/images/03-Living_Room_1.png" alt="Cozy room interior">
+                <div>
+                    <h3>Second bedroom</h3>
+                    <p class="muted">A second triple-bed room with attached bathroom. For smaller bookings, room
+                        allocation may be based on the number of guests.</p>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section id="amenities">
+        <h2 class="section-title">What you can enjoy</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="icon"><img src="assets/images/mountain.png" alt="Lake & mountain views"></div>
+                <h3>Lake & mountain views</h3>
+                <p class="muted">Enjoy peaceful Himalayan scenery and lake views from the property.</p>
+            </div>
+            <div class="card">
+                <div class="icon">🎲</div>
+                <h3>Indoor games</h3>
+                <p class="muted">Carrom, chess, ludo, snakes & ladders, UNO, cards and Jenga for relaxed evenings.</p>
+            </div>
+            <div class="card">
+                <div class="icon"><img src="assets/images/kitchen-book.png" alt="Simple kitchen access"></div>
+                <h3>Simple kitchen access</h3>
+                <p class="muted">Basic facilities are available for tea, coffee, Maggi, bread toast and simple roasted
+                    items.</p>
+            </div>
+            <div class="card">
+                <div class="icon">🚗</div>
+                <h3>Road access</h3>
+                <p class="muted">The car can reach the property gate on the main road. Rooms are a short walk from the
+                    gate with stairs.</p>
+            </div>
+            <div class="card">
+                <div class="icon"><img src="assets/images/wifi.png" alt="Wi‑Fi & essentials"></div>
+                <h3>Wi‑Fi & essentials</h3>
+                <p class="muted">Wi‑Fi and essential guest facilities are provided, subject to local network and power
+                    conditions.</p>
+            </div>
+            <div class="card">
+                <div class="icon"><img src="assets/images/location.png" alt="Great travel base"></div>
+                <h3>Great travel base</h3>
+                <p class="muted">Convenient for Srinagar, Dhari Devi Temple, Rudraprayag, Devprayag and onward Garhwal
+                    journeys.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery">
+        <h2 class="section-title">A glimpse of the experience</h2>
+
+        <div class="gallery-slider">
+            <div class="gallery-track">
+
+                <div class="gallery-slide">
+                    <img src="assets/images/Property_Building1_Thumb.png" alt="Lake View Homestay property Building">
+                </div>
+
+                <div class="gallery-slide">
+                    <img src="assets/images/Varanda1_Thumb.png" alt="Lake View Homestay Veranda">
+                </div>
+
+                <div class="gallery-slide">
+                    <img src="assets/images/Varanda2_Thumb.png" alt="Lake View Homestay Veranda">
+                </div>
+
+                <div class="gallery-slide">
+                    <img src="assets/images/Tarrace_Thumb.png" alt="Lake View Homestay Terrace">
+                </div>
+
+                <div class="gallery-slide">
+                    <img src="assets/images/Homestay_stairs_Thumb.png" alt="Lake View Homestay Stairs">
+                </div>
+
+                <div class="gallery-slide">
+                    <img src="assets/images/01-Living_Room_1_Thumb.png" alt="Lake View Homestay Living_Room1">
+                </div>
+
+                <div class="gallery-slide">
+                    <img src="assets/images/01-Living_Room_2_Thumb.png" alt="Lake View Homestay Living_Room1">
+                </div>
+
+                <div class="gallery-slide">
+                    <img src="assets/images/01-Living_Room_3_Thumb.png" alt="Lake View Homestay Living_Room1">
+                </div>
+
+                <div class="gallery-slide">
+                    <img src="assets/images/01-Living_Room_4_Thumb.png" alt="Lake View Homestay Living_Room1">
+                </div>
+
+                <div class="gallery-slide">
+                    <img src="assets/images/01-Living_Room_5_Thumb.png" alt="Lake View Homestay Living_Room1">
+                </div>
+
+                <div class="gallery-slide">
+                    <img src="assets/images/01-Living_Room_6_Thumb.png" alt="Lake View Homestay Living_Room1">
+                </div>
+
+                <div class="gallery-slide">
+                    <img src="assets/images/02-Bathroom_1_Thumb.png" alt="Lake View Homestay Bathroom1">
+                </div>
+
+                <div class="gallery-slide">
+                    <img src="assets/images/02-Bathroom_2_Thumb.png" alt="Lake View Homestay Bathroom1">
+                </div>
+
+                <div class="gallery-slide">
+                    <img src="assets/images/03-Living_Room_1_Thumb.png" alt="Lake View Homestay Living_Room2">
+                </div>
+
+                <div class="gallery-slide">
+                    <img src="assets/images/03-Living_Room_2_Thumb.png" alt="Lake View Homestay Living_Room2">
+                </div>
+
+                <div class="gallery-slide">
+                    <img src="assets/images/03-Living_Room_3_Thumb.png" alt="Lake View Homestay Living_Room2">
+                </div>
+
+                <div class="gallery-slide">
+                    <img src="assets/images/03-Living_Room_4_Thumb.png" alt="Lake View Homestay Living_Room2">
+                </div>
+
+                <div class="gallery-slide">
+                    <img src="assets/images/04-Bathroom_1_Thumb.png" alt="Lake View Homestay Bathroom2">
+                </div>
+
+                <div class="gallery-slide">
+                    <img src="assets/images/04-Bathroom_2_Thumb.png" alt="Lake View Homestay Bathroom2">
+                </div>
+
+                <div class="gallery-slide">
+                    <img src="assets/images/05-Kitchen_1_Thumb.png" alt="Lake View Homestay Kitchen">
+                </div>
+
+                <div class="gallery-slide">
+                    <img src="assets/images/05-Kitchen_2_Thumb.png" alt="Lake View Homestay Kitchen">
+                </div>
+
+                <div class="gallery-slide">
+                    <img src="assets/images/06-Game_Thumb.png" alt="Lake View Homestay Games">
+                </div>
+
+            </div>
+
+            <button class="gallery-btn gallery-prev" aria-label="Previous photo">
+                &#10094;
+            </button>
+
+            <button class="gallery-btn gallery-next" aria-label="Next photo">
+                &#10095;
+            </button>
+        </div>
+
+        <div class="gallery-dots"></div>
+    </section>
+
+    <section id="location">
+        <div>
+            <h2 class="section-title">Find us in Farasu</h2>
+            <p class="muted">Village Farasu, P.O. Dungripanth, Tehsil Srinagar, District Pauri Garhwal, Uttarakhand —
+                PIN 246174.</p>
+            <div class="distance">
+                <div><strong>Dhari Devi Temple</strong><br>≈ 10 min</div>
+                <div><strong>Srinagar</strong><br>≈ 15 min</div>
+                <div><strong>Rudraprayag</strong><br>≈ 45 min</div>
+                <div><strong>Devprayag</strong><br>≈ 1 hr</div>
+                <div><strong>Khirsu</strong><br>≈ 1 hr</div>
+                <div><strong>Chopta</strong><br>≈ 2 hr</div>
+            </div>
+        </div>
+        <div class="mapbox">
+            <div class="map-content">
+                <h3>Find Us on Google Maps</h3>
+
+                <p class="muted">
+                    Lake View Homestay, Gandasu
+                </p>
+
+                <div class="map-frame">
+                    <iframe src="https://www.google.com/maps?q=Lake+View+Homestay+Gandasu&output=embed" width="100%"
+                        height="400" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+
+                <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Lake+View+Homestay+Gandasu"
+                    target="_blank" rel="noopener">
+                    Open in Google Maps
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="cta">
+            <h2>Plan your stay</h2>
+            <p>For availability, rates and booking details, contact us directly.</p>
+            <a class="btn" href="tel:+919968269765">Call 99682 69765</a>
+            <a class="btn"
+                href="https://wa.me/919968269765?text=Hello%20Lake%20View%20Homestay%2C%20please%20share%20availability%20and%20rates."
+                target="_blank">WhatsApp Us</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-inner">
+            <div><strong>Lake View Homestay</strong><br>Farasu, Srinagar, Uttarakhand</div>
+            <div>© 2026 Lake View Homestay · lakeviewstay.com</div>
+        </div>
+    </footer>
+</body>
+
+</html>
